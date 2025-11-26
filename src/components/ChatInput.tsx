@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Box, Flex, Text, IconButton, Textarea } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@/components/design-system";
+import { IconButton, Textarea } from "@chakra-ui/react";
 import { FiPlus, FiX, FiFile, FiImage, FiPaperclip } from "react-icons/fi";
 
 // Mock file data structure
