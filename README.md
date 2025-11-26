@@ -1,6 +1,6 @@
-# Starter Kit
+# Quick Attach - Mobile Chat Input Prototype
 
-A starter kit for rapid prototyping and full-blown projects with integrated design system.
+A mobile chat input prototype with long-press file attachment functionality. Built with Next.js and following interaction design principles from Devouring Details.
 
 ## Design System
 
@@ -42,6 +42,36 @@ npm run dev
 ```
 
 3. Open [http://localhost:3000](http://localhost:3000) to see your app.
+
+## 🚀 Deploy to Vercel
+
+### Quick Deploy (via GitHub)
+
+1. **Create GitHub repository:**
+   ```bash
+   ./scripts/setup-github.sh
+   ```
+   Or manually:
+   - Go to https://github.com/new
+   - Create repository (don't initialize with files)
+   - Run: `git remote add origin https://github.com/YOUR_USERNAME/REPO_NAME.git`
+   - Run: `git push -u origin main`
+
+2. **Deploy to Vercel:**
+   - Go to https://vercel.com/new
+   - Import your GitHub repository
+   - Vercel will auto-detect Next.js settings
+   - Click "Deploy"
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
+
+## 📱 Prototype Features
+
+- **Mobile chat input** with text area
+- **Long press** + button to open file menu
+- **Slide up/down** to select files from recent 5
+- **Touch-optimized** interactions
+- **Smooth animations** using spring physics
 
 ## Project Structure
 
