@@ -9,31 +9,31 @@ export const theme = defineConfig({
   theme: {
     tokens: {
       colors: {
-        // Primary brand colors
+        // Primary brand colors - cool grey scale
         primary: {
-          50: { value: "#e6f2ff" },
-          100: { value: "#b3d9ff" },
-          200: { value: "#80bfff" },
-          300: { value: "#4da6ff" },
-          400: { value: "#1a8cff" },
-          500: { value: "#0073e6" }, // Main brand color
-          600: { value: "#005cb3" },
-          700: { value: "#004580" },
-          800: { value: "#002e4d" },
-          900: { value: "#00171a" },
+          50: { value: "#f8f9fa" },
+          100: { value: "#e9ecef" },
+          200: { value: "#dee2e6" },
+          300: { value: "#ced4da" },
+          400: { value: "#adb5bd" },
+          500: { value: "#6c757d" }, // Main brand color
+          600: { value: "#495057" },
+          700: { value: "#343a40" },
+          800: { value: "#212529" },
+          900: { value: "#1a1d20" },
         },
-        // Secondary colors - more subdued than primary
+        // Secondary colors - cool blue-grey
         secondary: {
-          50: { value: "#f5f5f5" },
-          100: { value: "#e0e0e0" },
-          200: { value: "#c4c4c4" },
-          300: { value: "#a8a8a8" },
-          400: { value: "#8c8c8c" },
-          500: { value: "#707070" }, // More subdued gray
-          600: { value: "#5a5a5a" },
-          700: { value: "#444444" },
-          800: { value: "#2e2e2e" },
-          900: { value: "#181818" },
+          50: { value: "#f1f3f5" },
+          100: { value: "#e2e8f0" },
+          200: { value: "#cbd5e1" },
+          300: { value: "#94a3b8" },
+          400: { value: "#64748b" },
+          500: { value: "#475569" }, // More subdued blue-grey
+          600: { value: "#334155" },
+          700: { value: "#1e293b" },
+          800: { value: "#0f172a" },
+          900: { value: "#020617" },
         },
         // Semantic colors
         success: {

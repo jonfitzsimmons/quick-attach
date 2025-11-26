@@ -4,32 +4,32 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Box, Flex, Text } from "@/components/design-system";
 import { IconButton, Textarea } from "@chakra-ui/react";
-import { FiPlus, FiX, FiFile, FiImage, FiPaperclip } from "react-icons/fi";
+import { FiPlus, FiX, FiTrendingUp } from "react-icons/fi";
 
-// Mock file data structure
-interface FileItem {
+// Bet data structure
+interface BetItem {
   id: string;
   name: string;
-  type: "image" | "document" | "other";
-  size: string;
+  legs: string[];
+  odds: string;
 }
 
-// Mock recent files (in a real app, this would come from state/storage)
-const MOCK_RECENT_FILES: FileItem[] = [
-  { id: "1", name: "photo.jpg", type: "image", size: "2.4 MB" },
-  { id: "2", name: "document.pdf", type: "document", size: "1.2 MB" },
-  { id: "3", name: "presentation.pptx", type: "document", size: "5.1 MB" },
-  { id: "4", name: "screenshot.png", type: "image", size: "800 KB" },
-  { id: "5", name: "notes.txt", type: "document", size: "45 KB" },
+// Mock recent bets (in a real app, this would come from state/storage)
+const MOCK_RECENT_BETS: BetItem[] = [
+  { id: "1", name: "2-leg parlay", legs: ["BOS", "TOR"], odds: "+150" },
+  { id: "2", name: "3-leg parlay", legs: ["LAL", "GSW", "MIA"], odds: "+280" },
+  { id: "3", name: "2-leg parlay", legs: ["NYK", "PHI"], odds: "+120" },
+  { id: "4", name: "4-leg parlay", legs: ["DAL", "DEN", "MEM", "PHX"], odds: "+450" },
+  { id: "5", name: "2-leg parlay", legs: ["CHI", "MIL"], odds: "+135" },
 ];
 
 const LONG_PRESS_DURATION = 300; // ms
-const FILE_ITEM_HEIGHT = 64; // px
-const MENU_WIDTH = 280; // px
+const BET_ITEM_HEIGHT = 72; // px
+const MENU_WIDTH = 320; // px
 
 export function ChatInput() {
   const [text, setText] = useState("");
-  const [attachedFile, setAttachedFile] = useState<FileItem | null>(null);
+  const [attachedBet, setAttachedBet] = useState<BetItem | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
   const [isLongPressing, setIsLongPressing] = useState(false);
@@ -39,8 +39,8 @@ export function ChatInput() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Get last 5 files (most recent at bottom)
-  const recentFiles = MOCK_RECENT_FILES.slice(-5).reverse();
+  // Get last 5 bets (most recent at bottom)
+  const recentBets = MOCK_RECENT_BETS.slice(-5).reverse();
 
   const handleLongPressStart = useCallback((e: React.TouchEvent | React.MouseEvent) => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
@@ -51,9 +51,9 @@ export function ChatInput() {
     
     longPressTimerRef.current = setTimeout(() => {
       setIsMenuOpen(true);
-      setHighlightedIndex(recentFiles.length - 1); // Bottom item (most recent)
+      setHighlightedIndex(recentBets.length - 1); // Bottom item (most recent)
     }, LONG_PRESS_DURATION);
-  }, [recentFiles.length]);
+  }, [recentBets.length]);
 
   const handleLongPressMove = useCallback((e: TouchEvent | MouseEvent) => {
     if (!isMenuOpen || !touchStartRef.current || !menuRef.current) return;
@@ -70,23 +70,23 @@ export function ChatInput() {
     const isWithinMenu = clientY >= menuRect.top && clientY <= menuRect.bottom;
 
     if (isWithinMenu) {
-      // Calculate which file item based on position
-      // File items are displayed from top to bottom (oldest to newest)
+      // Calculate which bet item based on position
+      // Bet items are displayed from top to bottom (oldest to newest)
       // Index 0 is oldest, index (length-1) is most recent
-      let fileIndex = Math.floor(relativeToMenuTop / FILE_ITEM_HEIGHT);
+      let betIndex = Math.floor(relativeToMenuTop / BET_ITEM_HEIGHT);
       
       // Clamp index to valid range
-      fileIndex = Math.max(0, Math.min(recentFiles.length - 1, fileIndex));
+      betIndex = Math.max(0, Math.min(recentBets.length - 1, betIndex));
       
-      setHighlightedIndex(fileIndex);
+      setHighlightedIndex(betIndex);
     } else if (deltaY > 0 && clientY < menuRect.top) {
       // Above menu, highlight top item (oldest)
       setHighlightedIndex(0);
     } else if (clientY > menuRect.bottom) {
       // Below menu, highlight bottom item (most recent)
-      setHighlightedIndex(recentFiles.length - 1);
+      setHighlightedIndex(recentBets.length - 1);
     }
-  }, [isMenuOpen, recentFiles.length]);
+  }, [isMenuOpen, recentBets.length]);
 
   const handleLongPressEnd = useCallback(() => {
     if (longPressTimerRef.current) {
@@ -97,17 +97,17 @@ export function ChatInput() {
     setIsLongPressing(false);
 
     if (isMenuOpen && highlightedIndex !== null) {
-      // Attach the highlighted file
-      const fileToAttach = recentFiles[highlightedIndex];
-      if (fileToAttach) {
-        setAttachedFile(fileToAttach);
+      // Attach the highlighted bet
+      const betToAttach = recentBets[highlightedIndex];
+      if (betToAttach) {
+        setAttachedBet(betToAttach);
       }
     }
 
     setIsMenuOpen(false);
     setHighlightedIndex(null);
     touchStartRef.current = null;
-  }, [isMenuOpen, highlightedIndex, recentFiles]);
+  }, [isMenuOpen, highlightedIndex, recentBets]);
 
   // Handle touch events
   useEffect(() => {
@@ -161,26 +161,15 @@ export function ChatInput() {
     };
   }, [isLongPressing, isMenuOpen, handleLongPressMove, handleLongPressEnd]);
 
-  const getFileIcon = (type: FileItem["type"]) => {
-    switch (type) {
-      case "image":
-        return <FiImage />;
-      case "document":
-        return <FiFile />;
-      default:
-        return <FiPaperclip />;
-    }
-  };
-
-  const removeAttachedFile = () => {
-    setAttachedFile(null);
+  const removeAttachedBet = () => {
+    setAttachedBet(null);
   };
 
   // Get button position for menu placement
   const getMenuPosition = () => {
     if (!buttonRef.current) return { bottom: 0, right: 0 };
     const rect = buttonRef.current.getBoundingClientRect();
-    const menuHeight = recentFiles.length * FILE_ITEM_HEIGHT + 80; // Approximate height including padding and hint
+    const menuHeight = recentBets.length * BET_ITEM_HEIGHT + 80; // Approximate height including padding and hint
     return {
       bottom: window.innerHeight - rect.top + 12, // Above the button with gap
       right: Math.max(16, window.innerWidth - rect.right), // Align with button, min 16px from edge
@@ -203,9 +192,9 @@ export function ChatInput() {
         boxShadow="lg"
         zIndex={10}
       >
-        {/* Attached file display */}
+        {/* Attached bet display */}
         <AnimatePresence>
-          {attachedFile && (
+          {attachedBet && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
@@ -225,21 +214,21 @@ export function ChatInput() {
                 mb={3}
               >
                 <Box fontSize="xl" color="primary.500">
-                  {getFileIcon(attachedFile.type)}
+                  <FiTrendingUp />
                 </Box>
                 <Flex direction="column" flex={1} minWidth={0}>
-                        <Text fontSize="sm" fontWeight="medium" truncate>
-                          {attachedFile.name}
-                        </Text>
+                  <Text fontSize="sm" fontWeight="medium" truncate>
+                    {attachedBet.name} ({attachedBet.legs.join(", ")})
+                  </Text>
                   <Text fontSize="xs" color="text.secondary">
-                    {attachedFile.size}
+                    {attachedBet.odds}
                   </Text>
                 </Flex>
                 <IconButton
                   size="sm"
                   variant="ghost"
-                  aria-label="Remove file"
-                  onClick={removeAttachedFile}
+                  aria-label="Remove bet"
+                  onClick={removeAttachedBet}
                 >
                   <FiX />
                 </IconButton>
@@ -278,7 +267,7 @@ export function ChatInput() {
           <IconButton
             ref={buttonRef}
             size="lg"
-            aria-label="Attach file"
+            aria-label="Attach bet"
             colorPalette="primary"
             borderRadius="full"
             onTouchStart={handleLongPressStart}
@@ -339,11 +328,11 @@ export function ChatInput() {
               }}
             >
               <Box p={2}>
-                {recentFiles.map((file, index) => {
+                {recentBets.map((bet, index) => {
                   const isHighlighted = highlightedIndex === index;
                   return (
                     <motion.div
-                      key={file.id}
+                      key={bet.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{
                         opacity: 1,
@@ -365,14 +354,14 @@ export function ChatInput() {
                         display: "flex",
                         alignItems: "center",
                         gap: "12px",
-                        minHeight: FILE_ITEM_HEIGHT + "px",
+                        minHeight: BET_ITEM_HEIGHT + "px",
                       }}
                     >
                       <Box
                         fontSize="xl"
                         color={isHighlighted ? "var(--chakra-colors-primary-600)" : "var(--chakra-colors-text-secondary)"}
                       >
-                        {getFileIcon(file.type)}
+                        <FiTrendingUp />
                       </Box>
                       <Flex direction="column" flex={1} minWidth={0}>
                         <Text
@@ -383,12 +372,11 @@ export function ChatInput() {
                               ? "var(--chakra-colors-primary-900)"
                               : "var(--chakra-colors-text-primary)"
                           }
-                          truncate
                         >
-                          {file.name}
+                          {bet.name} ({bet.legs.join(", ")})
                         </Text>
                         <Text fontSize="xs" color="text.secondary">
-                          {file.size}
+                          {bet.odds}
                         </Text>
                       </Flex>
                     </motion.div>
@@ -405,7 +393,7 @@ export function ChatInput() {
                 bg="bg.secondary"
               >
                 <Text fontSize="xs" color="text.secondary" textAlign="center">
-                  Slide up/down to select, release to attach
+                  Slide up/down to select bet, release to attach
                 </Text>
               </Box>
             </motion.div>

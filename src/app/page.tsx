@@ -25,10 +25,10 @@ export default function Home() {
         zIndex={5}
       >
         <Heading size="lg" textAlign="center">
-          Chat Prototype
+          Sports Bet Chat
         </Heading>
         <Text fontSize="sm" color="text.secondary" textAlign="center" mt={1}>
-          Long press + button to attach files
+          Long press + button to attach recent bets
         </Text>
       </Box>
 
@@ -58,14 +58,14 @@ export default function Home() {
               System
             </Text>
             <Text>
-              Welcome! Try long pressing the + button to see the file attachment
-              menu. You can slide up and down to select different files.
+              Welcome! Try long pressing the + button to see your recent bets.
+              You can slide up and down to select different bets.
             </Text>
           </Box>
 
           <Box
             p={4}
-            bg="primary.500"
+            bg="primary.600"
             color="white"
             borderRadius="lg"
             maxWidth="80%"
@@ -75,7 +75,7 @@ export default function Home() {
               You
             </Text>
             <Text color="white">
-              This is a mobile chat prototype with file attachment functionality.
+              This is a sports betting chat. Share your bets with friends!
             </Text>
           </Box>
 
@@ -92,9 +92,9 @@ export default function Home() {
             <Text>
               Instructions:
               <br />• Long press the + button
-              <br />• Release to attach most recent file
+              <br />• Release to attach most recent bet
               <br />• Or slide up/down to select and release
-              <br />• Tap X to remove attached file
+              <br />• Tap X to remove attached bet
             </Text>
           </Box>
         </VStack>
