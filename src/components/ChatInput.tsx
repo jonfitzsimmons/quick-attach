@@ -267,10 +267,15 @@ export function ChatInput() {
             fontSize="md"
             resize="none"
             rows={1}
-            onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
+            onInput={(e: React.FormEvent<HTMLDivElement>) => {
               const target = e.target as HTMLTextAreaElement;
               target.style.height = "auto";
               target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
+            }}
+            // @ts-ignore - Box as textarea needs special typing
+            __css={{
+              fontFamily: "inherit",
+              lineHeight: "inherit",
             }}
           />
 
