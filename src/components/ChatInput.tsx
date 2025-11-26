@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Box, Flex, Text, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Text, IconButton, Textarea } from "@chakra-ui/react";
 import { FiPlus, FiX, FiFile, FiImage, FiPaperclip } from "react-icons/fi";
 
 // Mock file data structure
@@ -249,46 +249,37 @@ export function ChatInput() {
 
         {/* Input row */}
         <Flex align="flex-end" gap={2}>
-          <Box
+          <Textarea
             flex={1}
-            position="relative"
-          >
-            <Box
-              as="textarea"
-              value={text}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                setText(e.target.value)
-              }
-              placeholder="Type a message..."
-              minH="44px"
-              maxH="120px"
-              p={3}
-              borderRadius="xl"
-              borderWidth="1px"
-              borderColor="border.base"
-              bg="bg.secondary"
-              fontSize="md"
-              resize="none"
-              rows={1}
-              width="100%"
-              onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
-                const target = e.target as HTMLTextAreaElement;
-                target.style.height = "auto";
-                target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
-              }}
-              _focus={{
-                outline: "none",
-                borderColor: "primary.500",
-              }}
-            />
-          </Box>
+            value={text}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setText(e.target.value)
+            }
+            placeholder="Type a message..."
+            minH="44px"
+            maxH="120px"
+            borderRadius="xl"
+            borderColor="border.base"
+            bg="bg.secondary"
+            resize="none"
+            rows={1}
+            onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
+              const target = e.target as HTMLTextAreaElement;
+              target.style.height = "auto";
+              target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
+            }}
+            _focus={{
+              outline: "none",
+              borderColor: "primary.500",
+            }}
+          />
 
           <IconButton
             ref={buttonRef}
             size="lg"
             aria-label="Attach file"
             colorPalette="primary"
-            isRound
+            borderRadius="full"
             onTouchStart={handleLongPressStart}
             onMouseDown={handleLongPressStart}
             style={{
