@@ -227,9 +227,9 @@ export function ChatInput() {
                   {getFileIcon(attachedFile.type)}
                 </Box>
                 <Flex direction="column" flex={1} minWidth={0}>
-                  <Text fontSize="sm" fontWeight="medium" isTruncated>
-                    {attachedFile.name}
-                  </Text>
+                        <Text fontSize="sm" fontWeight="medium" truncate>
+                          {attachedFile.name}
+                        </Text>
                   <Text fontSize="xs" color="text.secondary">
                     {attachedFile.size}
                   </Text>
@@ -382,7 +382,7 @@ export function ChatInput() {
                               ? "var(--chakra-colors-primary-900)"
                               : "var(--chakra-colors-text-primary)"
                           }
-                          isTruncated
+                          truncate
                         >
                           {file.name}
                         </Text>
