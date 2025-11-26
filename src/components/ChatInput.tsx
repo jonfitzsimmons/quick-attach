@@ -251,33 +251,37 @@ export function ChatInput() {
         <Flex align="flex-end" gap={2}>
           <Box
             flex={1}
-            as="textarea"
-            value={text}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setText(e.target.value)
-            }
-            placeholder="Type a message..."
-            minH="44px"
-            maxH="120px"
-            p={3}
-            borderRadius="xl"
-            borderWidth="1px"
-            borderColor="border.base"
-            bg="bg.secondary"
-            fontSize="md"
-            resize="none"
-            rows={1}
-            onInput={(e: React.FormEvent<HTMLDivElement>) => {
-              const target = e.target as HTMLTextAreaElement;
-              target.style.height = "auto";
-              target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
-            }}
-            // @ts-ignore - Box as textarea needs special typing
-            __css={{
-              fontFamily: "inherit",
-              lineHeight: "inherit",
-            }}
-          />
+            position="relative"
+          >
+            <Box
+              as="textarea"
+              value={text}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setText(e.target.value)
+              }
+              placeholder="Type a message..."
+              minH="44px"
+              maxH="120px"
+              p={3}
+              borderRadius="xl"
+              borderWidth="1px"
+              borderColor="border.base"
+              bg="bg.secondary"
+              fontSize="md"
+              resize="none"
+              rows={1}
+              width="100%"
+              onInput={(e: React.FormEvent<HTMLTextAreaElement>) => {
+                const target = e.target as HTMLTextAreaElement;
+                target.style.height = "auto";
+                target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
+              }}
+              _focus={{
+                outline: "none",
+                borderColor: "primary.500",
+              }}
+            />
+          </Box>
 
           <IconButton
             ref={buttonRef}
